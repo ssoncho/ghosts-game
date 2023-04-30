@@ -10,7 +10,7 @@ namespace GhostsGame
         private SpriteBatch _spriteBatch;
 
         private Texture2D whiteGhostSprite;
-
+        private Vector2 whiteGhostInitialPosition;
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -31,6 +31,7 @@ namespace GhostsGame
 
             // TODO: use this.Content to load your game content here
             whiteGhostSprite = Content.Load<Texture2D>("white-ghost");
+            whiteGhostInitialPosition = new Vector2(0, 0);
         }
 
         protected override void Update(GameTime gameTime)
@@ -49,8 +50,11 @@ namespace GhostsGame
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(whiteGhostSprite, new Vector2(10, 10), Color.White);
+            _spriteBatch.Draw(
+                whiteGhostSprite, 
+                whiteGhostInitialPosition, Color.White);
             _spriteBatch.End();
+            
             base.Draw(gameTime);
         }
     }
