@@ -40,6 +40,14 @@ namespace GhostsGame
                 Exit();
 
             // TODO: Add your update logic here
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+                whiteGhostInitialPosition.Y -= 1;
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+                whiteGhostInitialPosition.Y += 1;
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+                whiteGhostInitialPosition.X -= 1;
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+                whiteGhostInitialPosition.X += 1;
 
             base.Update(gameTime);
         }
