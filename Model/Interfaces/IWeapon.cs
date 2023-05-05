@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GhostsGame.Model.Enums;
 
 namespace GhostsGame.Model.Interfaces
 {
-    public interface IGhost
+    public interface IWeapon
     {
-        void Move(Direction direction);
+        Player Owner { get; }
     }
 }
