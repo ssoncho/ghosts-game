@@ -10,5 +10,6 @@ namespace GhostsGame.Model.Interfaces
     public interface IGhost
     {
         void Move(Direction direction);
+        void Attack(IWeapon weapon);
     }
 }
