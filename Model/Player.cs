@@ -1,5 +1,6 @@
 ﻿using GhostsGame.Model.Enums;
 using GhostsGame.Model.Interfaces;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace GhostsGame.Model
 {
     public class Player : IGhost
     {
+        public Player(Vector2 initialPosition)
+        {
+            Position = initialPosition;
+        }
+        public Vector2 Position { get; private set; }
+
         public void Attack(IWeapon weapon)
         {
             throw new NotImplementedException();
@@ -17,7 +24,14 @@ namespace GhostsGame.Model
 
         public void Move(Direction direction)
         {
-            throw new NotImplementedException();
+            if (direction == Direction.Down)
+                Position += Vector2.UnitY;
+            else if (direction == Direction.Up)
+                Position -= Vector2.UnitY;
+            else if (direction == Direction.Right)
+                Position += Vector2.UnitX;
+            else
+                Position -= Vector2.UnitX;
         }
     }
 }

@@ -10,23 +10,11 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        public Vector2 PlayerPosition { get; private set; }
+        public Player Player { get; private set; }
 
         public Level(Vector2 initialPlayerPosition)
         {
-            PlayerPosition = initialPlayerPosition;
-        }
-
-        public void SetPlayerPosition(Direction direction)
-        {
-            if (direction == Direction.Down)
-                PlayerPosition += Vector2.UnitY;
-            if (direction == Direction.Up)
-                PlayerPosition -= Vector2.UnitY;
-            if (direction == Direction.Right)
-                PlayerPosition += Vector2.UnitX;
-            else
-                PlayerPosition -= Vector2.UnitX;
+            Player = new Player(initialPlayerPosition);
         }
     }
 }
