@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GhostsGame.Model;
 
 namespace GhostsGame
 {
@@ -10,7 +11,7 @@ namespace GhostsGame
         private SpriteBatch _spriteBatch;
 
         private Texture2D whiteGhostSprite;
-        private Vector2 whiteGhostInitialPosition;
+        private Level level;
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -21,7 +22,7 @@ namespace GhostsGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            level = new Level(new Vector2(0, 0));
             base.Initialize();
         }
 
@@ -31,7 +32,6 @@ namespace GhostsGame
 
             // TODO: use this.Content to load your game content here
             whiteGhostSprite = Content.Load<Texture2D>("white-ghost");
-            whiteGhostInitialPosition = new Vector2(0, 0);
         }
 
         protected override void Update(GameTime gameTime)
@@ -40,14 +40,15 @@ namespace GhostsGame
                 Exit();
 
             // TODO: Add your update logic here
+            //не работает!!!
             if (Keyboard.GetState().IsKeyDown(Keys.W))
-                whiteGhostInitialPosition.Y -= 1;
+                level.Player.Move(Model.Enums.Direction.Up);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
-                whiteGhostInitialPosition.Y += 1;
+                level.Player.Move(Model.Enums.Direction.Down);
             if (Keyboard.GetState().IsKeyDown(Keys.A))
-                whiteGhostInitialPosition.X -= 1;
+                level.Player.Move(Model.Enums.Direction.Left);
             if (Keyboard.GetState().IsKeyDown(Keys.D))
-                whiteGhostInitialPosition.X += 1;
+                level.Player.Move(Model.Enums.Direction.Right);
 
             base.Update(gameTime);
         }
@@ -60,7 +61,7 @@ namespace GhostsGame
             _spriteBatch.Begin();
             _spriteBatch.Draw(
                 whiteGhostSprite, 
-                whiteGhostInitialPosition, Color.White);
+                level.Player.Position, Color.White);
             _spriteBatch.End();
             
             base.Draw(gameTime);
