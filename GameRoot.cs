@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GhostsGame.Model;
+using GhostsGame.View;
 
 namespace GhostsGame
 {
@@ -12,6 +13,7 @@ namespace GhostsGame
 
         private Texture2D whiteGhostSprite;
         private Level level;
+        private Renderer renderer;
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -23,6 +25,7 @@ namespace GhostsGame
         {
             // TODO: Add your initialization logic here
             level = new Level(new Vector2(0, 0));
+            renderer = new Renderer(Content);
             base.Initialize();
         }
 
