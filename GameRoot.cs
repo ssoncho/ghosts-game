@@ -40,7 +40,6 @@ namespace GhostsGame
                 Exit();
 
             // TODO: Add your update logic here
-            //не работает!!!
             if (Keyboard.GetState().IsKeyDown(Keys.W))
                 level.Player.Move(Model.Enums.Direction.Up);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
