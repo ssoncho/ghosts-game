@@ -13,7 +13,6 @@ namespace GhostsGame.View
 {
     public class Renderer
     {
-        public readonly List<ObjectUI> objectsToDraw;
         public PlayerUI Player { get; private set; }
         public readonly Level Level;
         private ContentManager content;
@@ -24,7 +23,6 @@ namespace GhostsGame.View
             this.spriteBatch = spriteBatch;
             Level = level;
             Player = CreatePlayer();
-            objectsToDraw.Add(Player);
         }
 
         public void Update()
