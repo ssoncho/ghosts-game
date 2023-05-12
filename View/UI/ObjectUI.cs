@@ -10,18 +10,18 @@ namespace GhostsGame.View.UI
 {
     public abstract class ObjectUI
     {
-        public ObjectUI(Rectangle rectangle, Texture2D image)
+        public ObjectUI(Rectangle rectangle, Texture2D texture)
         {
             Rectangle = rectangle;
-            Image = image;
+            Texture = texture;
         }
 
         public Rectangle Rectangle { get; private set; }
-        public Texture2D Image { get; private set; }
+        public Texture2D Texture { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Image, Rectangle, Color.White);
+            spriteBatch.Draw(Texture, Rectangle, Color.White);
         }
     }
 }

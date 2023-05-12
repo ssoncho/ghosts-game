@@ -1,4 +1,5 @@
 ﻿using GhostsGame.Model;
+using GhostsGame.Model.Enums;
 using GhostsGame.View.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -17,24 +18,36 @@ namespace GhostsGame.View
         public readonly Level Level;
         private ContentManager content;
         private SpriteBatch spriteBatch;
-        public Renderer(ContentManager content, SpriteBatch spriteBatch, Level level)
+        private Dictionary<Image, Texture2D> textures = new();
+        private List<ObjectUI> viewObjects = new();
+        public Renderer(ContentManager content, SpriteBatch spriteBatch, 
+            Level level, Dictionary<Image, Texture2D> textures)
         {
             this.content = content;
             this.spriteBatch = spriteBatch;
             Level = level;
-            Player = CreatePlayer();
+            textures[Image.Player] = content.Load<Texture2D>("white-ghost");
         }
 
         public void Update()
         {
-            
+            foreach (var obj in Level.Objects)
+            {
+                
+            }
         }
 
-        public PlayerUI CreatePlayer()
+        public void AddObjectsToDraw()
         {
-            var playerImage = content.Load<Texture2D>("white-ghost");
-            var playerRectangle = new Rectangle(0, 0, 125, 125);
-            return new PlayerUI(playerRectangle, playerImage);
+            foreach (var obj in Level.Objects)
+            {
+                var texture = textures[Image.Player];
+                if (obj.ImageId == Image.Player)
+                {
+                    var rectangle = new Rectangle((int)obj.Position.X, (int)obj.Position.Y, texture.Height, texture.Width);
+                    viewObjects.Add(new PlayerUI(rectangle, texture));
+                }
+            }
         }
     }
 }

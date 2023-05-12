@@ -11,7 +11,7 @@ namespace GhostsGame.View.UI
 {
     public class PlayerUI : ObjectUI
     {
-        public PlayerUI(Rectangle rectangle, Texture2D image) : base(rectangle, image)
+        public PlayerUI(Rectangle rectangle, Texture2D texture) : base(rectangle, texture)
         {
         }
     }

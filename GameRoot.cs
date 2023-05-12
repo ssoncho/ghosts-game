@@ -15,7 +15,6 @@ namespace GhostsGame
 
         private Level level;
         private Renderer renderer;
-        private Dictionary<Image, Texture2D> textures = new();
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -36,7 +35,6 @@ namespace GhostsGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            textures[Image.Player] = Content.Load<Texture2D>("white-ghost");
         }
 
         protected override void Update(GameTime gameTime)
