@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GhostsGame.Model;
+using GhostsGame.View;
+using System.Collections.Generic;
+using GhostsGame.Model.Enums;
 
 namespace GhostsGame
 {
@@ -10,8 +13,8 @@ namespace GhostsGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Texture2D whiteGhostSprite;
         private Level level;
+        private Renderer renderer;
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -23,6 +26,7 @@ namespace GhostsGame
         {
             // TODO: Add your initialization logic here
             level = new Level(new Vector2(0, 0));
+            
             base.Initialize();
         }
 
@@ -31,7 +35,7 @@ namespace GhostsGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            whiteGhostSprite = Content.Load<Texture2D>("white-ghost");
+            renderer = new Renderer(Content, _spriteBatch, level);
         }
 
         protected override void Update(GameTime gameTime)
@@ -40,7 +44,6 @@ namespace GhostsGame
                 Exit();
 
             // TODO: Add your update logic here
-            //не работает!!!
             if (Keyboard.GetState().IsKeyDown(Keys.W))
                 level.Player.Move(Model.Enums.Direction.Up);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
@@ -59,9 +62,7 @@ namespace GhostsGame
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(
-                whiteGhostSprite, 
-                level.Player.Position, Color.White);
+            renderer.Update();
             _spriteBatch.End();
             
             base.Draw(gameTime);
