@@ -10,6 +10,7 @@ namespace GhostsGame.Model.Interfaces
 {
     public interface IObject
     {
+        public Vector2 Position { get; }
         void Move(Direction direction);
     }
 }

@@ -10,7 +10,6 @@ namespace GhostsGame.Model.Interfaces
 {
     public interface IGhost: IObject
     {
-        public Vector2 Position { get; }
         void Attack(IWeapon weapon);
     }
 }
