@@ -17,6 +17,8 @@ namespace GhostsGame.Model
         }
         public Vector2 Position { get; private set; }
 
+        public Image ImageId => Image.Player;
+
         public void Attack(IWeapon weapon)
         {
             throw new NotImplementedException();

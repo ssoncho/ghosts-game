@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.Model.Enums
 {
-    public enum ImageId
+    public enum Image
     {
         Player,
         Enemy,
