@@ -12,11 +12,11 @@ namespace GhostsGame.Model
     public class Level
     {
         public readonly List<IObject> Objects;
-
+        public Player Player { get; set; }
         public Level(Vector2 initialPlayerPosition)
         {
-            var player = new Player(initialPlayerPosition);
-            Objects.Add(player);
+            Player = new Player(initialPlayerPosition);
+            Objects.Add(Player);
         }
     }
 }

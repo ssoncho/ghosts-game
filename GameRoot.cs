@@ -25,7 +25,7 @@ namespace GhostsGame
         {
             // TODO: Add your initialization logic here
             level = new Level(new Vector2(0, 0));
-            renderer = new Renderer(Content);
+            renderer = new Renderer(Content, _spriteBatch, level);
             base.Initialize();
         }
 
