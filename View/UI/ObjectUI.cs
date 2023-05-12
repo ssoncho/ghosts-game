@@ -16,7 +16,7 @@ namespace GhostsGame.View.UI
             Texture = texture;
         }
 
-        public Rectangle Rectangle { get; private set; }
+        public Rectangle Rectangle { get; set; }
         public Texture2D Texture { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)

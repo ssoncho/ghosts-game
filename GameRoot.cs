@@ -26,7 +26,7 @@ namespace GhostsGame
         {
             // TODO: Add your initialization logic here
             level = new Level(new Vector2(0, 0));
-            renderer = new Renderer(Content, _spriteBatch, level);
+            
             base.Initialize();
         }
 
@@ -35,6 +35,7 @@ namespace GhostsGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            renderer = new Renderer(Content, _spriteBatch, level);
         }
 
         protected override void Update(GameTime gameTime)
@@ -61,9 +62,7 @@ namespace GhostsGame
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            //_spriteBatch.Draw(
-            //    whiteGhostSprite, 
-            //    level.Player.Position, Color.White);
+            renderer.Update();
             _spriteBatch.End();
             
             base.Draw(gameTime);

@@ -19,33 +19,42 @@ namespace GhostsGame.View
         private ContentManager content;
         private SpriteBatch spriteBatch;
         private Dictionary<Image, Texture2D> textures = new();
-        private List<ObjectUI> viewObjects = new();
+        private Dictionary<int, ObjectUI> idsViewObjects = new();
         public Renderer(ContentManager content, SpriteBatch spriteBatch, 
-            Level level, Dictionary<Image, Texture2D> textures)
+            Level level)
         {
             this.content = content;
             this.spriteBatch = spriteBatch;
             Level = level;
             textures[Image.Player] = content.Load<Texture2D>("white-ghost");
+            AddObjectsToDraw();
         }
 
         public void Update()
         {
-            foreach (var obj in Level.Objects)
+            foreach (var pair in idsViewObjects)
             {
-                
+                var objId = pair.Key;
+                var viewObj = pair.Value;
+                var newPosition = Level.IdsObjects[objId].Position;
+                viewObj.Rectangle = new Rectangle(
+                    (int)newPosition.X, (int)newPosition.Y,
+                    viewObj.Rectangle.Width, 
+                    viewObj.Rectangle.Height);
+                viewObj.Draw(spriteBatch);
             }
         }
 
-        public void AddObjectsToDraw()
+        private void AddObjectsToDraw()
         {
-            foreach (var obj in Level.Objects)
+            foreach (var pair in Level.IdsObjects)
             {
+                var obj = pair.Value;
                 var texture = textures[Image.Player];
                 if (obj.ImageId == Image.Player)
                 {
                     var rectangle = new Rectangle((int)obj.Position.X, (int)obj.Position.Y, texture.Height, texture.Width);
-                    viewObjects.Add(new PlayerUI(rectangle, texture));
+                    idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
                 }
             }
         }
