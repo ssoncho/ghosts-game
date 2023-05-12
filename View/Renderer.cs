@@ -1,4 +1,5 @@
-﻿using GhostsGame.View.UI;
+﻿using GhostsGame.Model;
+using GhostsGame.View.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,13 +13,26 @@ namespace GhostsGame.View
 {
     public class Renderer
     {
+        public readonly List<ObjectUI> objectsToDraw;
         public PlayerUI Player { get; private set; }
-        public Renderer(ContentManager content)
+        public readonly Level Level;
+        private ContentManager content;
+        private SpriteBatch spriteBatch;
+        public Renderer(ContentManager content, SpriteBatch spriteBatch, Level level)
         {
-            Player = CreatePlayer(content);
+            this.content = content;
+            this.spriteBatch = spriteBatch;
+            Level = level;
+            Player = CreatePlayer();
+            objectsToDraw.Add(Player);
         }
 
-        public PlayerUI CreatePlayer(ContentManager content)
+        public void Update()
+        {
+            
+        }
+
+        public PlayerUI CreatePlayer()
         {
             var playerImage = content.Load<Texture2D>("white-ghost");
             var playerRectangle = new Rectangle(0, 0, 125, 125);
