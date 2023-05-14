@@ -15,6 +15,7 @@ namespace GhostsGame
 
         private Level level;
         private Renderer renderer;
+        private Texture2D tile;
         public GameRoot()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -39,6 +40,7 @@ namespace GhostsGame
 
             // TODO: use this.Content to load your game content here
             renderer = new Renderer(Content, _spriteBatch, level);
+            tile = Content.Load<Texture2D>("tile");
         }
 
         protected override void Update(GameTime gameTime)
@@ -66,6 +68,10 @@ namespace GhostsGame
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             renderer.Update();
+            _spriteBatch.Draw(tile, new Vector2(0, 768 - 2*64), Color.White);
+            _spriteBatch.Draw(tile, new Vector2(0, 768-64), Color.White);
+            _spriteBatch.Draw(tile, new Vector2(64, 768 - 2 * 64), Color.White);
+            _spriteBatch.Draw(tile, new Vector2(64, 768 - 64), Color.White);
             _spriteBatch.End();
             
             base.Draw(gameTime);

@@ -26,7 +26,7 @@ namespace GhostsGame.View
             this.content = content;
             this.spriteBatch = spriteBatch;
             Level = level;
-            textures[Image.Player] = content.Load<Texture2D>("white-ghost");
+            textures[Image.Player] = content.Load<Texture2D>("white-ghost-right-weapon");
             AddObjectsToDraw();
         }
 
