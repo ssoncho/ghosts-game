@@ -38,7 +38,7 @@ namespace GhostsGame.View
                 var viewObj = pair.Value;
                 var newPosition = Level.IdsObjects[objId].Position;
                 viewObj.Rectangle = new Rectangle(
-                    (int)newPosition.X, (int)newPosition.Y,
+                    (int)newPosition.X*32, (int)newPosition.Y*32, //unit test, doesn't work properly
                     viewObj.Rectangle.Width, 
                     viewObj.Rectangle.Height);
                 viewObj.Draw(spriteBatch);
