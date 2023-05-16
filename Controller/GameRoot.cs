@@ -6,7 +6,7 @@ using GhostsGame.View;
 using System.Collections.Generic;
 using GhostsGame.Model.Enums;
 
-namespace GhostsGame
+namespace GhostsGame.Controller
 {
     public class GameRoot : Game
     {
@@ -30,7 +30,7 @@ namespace GhostsGame
         {
             // TODO: Add your initialization logic here
             level = new Level(new Vector2(0, 0));
-            
+
             base.Initialize();
         }
 
@@ -50,13 +50,13 @@ namespace GhostsGame
 
             // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.W))
-                level.Player.Move(Model.Enums.Direction.Up);
+                level.Player.Move(Direction.Up);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
-                level.Player.Move(Model.Enums.Direction.Down);
+                level.Player.Move(Direction.Down);
             if (Keyboard.GetState().IsKeyDown(Keys.A))
-                level.Player.Move(Model.Enums.Direction.Left);
+                level.Player.Move(Direction.Left);
             if (Keyboard.GetState().IsKeyDown(Keys.D))
-                level.Player.Move(Model.Enums.Direction.Right);
+                level.Player.Move(Direction.Right);
 
             base.Update(gameTime);
         }
@@ -68,12 +68,12 @@ namespace GhostsGame
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             renderer.Update();
-            _spriteBatch.Draw(tile, new Vector2(0, 768 - 2*64), Color.White);
-            _spriteBatch.Draw(tile, new Vector2(0, 768-64), Color.White);
+            _spriteBatch.Draw(tile, new Vector2(0, 768 - 2 * 64), Color.White);
+            _spriteBatch.Draw(tile, new Vector2(0, 768 - 64), Color.White);
             _spriteBatch.Draw(tile, new Vector2(64, 768 - 2 * 64), Color.White);
             _spriteBatch.Draw(tile, new Vector2(64, 768 - 64), Color.White);
             _spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }

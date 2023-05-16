@@ -1,4 +1,4 @@
-﻿using GhostsGame;
+﻿using GhostsGame.Controller;
 
 public static class EntryPoint
 {
