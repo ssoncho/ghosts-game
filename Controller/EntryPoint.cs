@@ -1,11 +1,13 @@
 ﻿using GhostsGame.Controller;
+using System;
 
 public static class EntryPoint
 {
-    public static GameRoot game;
+    public static GameRoot Game;
+    [STAThread]
     static void Main()
     {
-        using (game = new GameRoot())
-            game.Run();
+        using (Game = new GameRoot())
+            Game.Run();
     }
 }

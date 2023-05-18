@@ -5,6 +5,9 @@ using GhostsGame.Model;
 using GhostsGame.View;
 using System.Collections.Generic;
 using GhostsGame.Model.Enums;
+using System.Diagnostics;
+using System.Threading;
+using System;
 
 namespace GhostsGame.Controller
 {
@@ -47,15 +50,15 @@ namespace GhostsGame.Controller
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            var currentKeyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (currentKeyboardState.IsKeyDown(Keys.W))
                 level.Player.Move(Direction.Up);
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (currentKeyboardState.IsKeyDown(Keys.S))
                 level.Player.Move(Direction.Down);
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (currentKeyboardState.IsKeyDown(Keys.A))
                 level.Player.Move(Direction.Left);
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (currentKeyboardState.IsKeyDown(Keys.D))
                 level.Player.Move(Direction.Right);
 
             base.Update(gameTime);
