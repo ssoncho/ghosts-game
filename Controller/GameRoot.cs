@@ -16,7 +16,8 @@ namespace GhostsGame.Controller
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Level level;
+        private Level level1;
+        private ScreenController screenController;
         private Renderer renderer;
         private Texture2D tile;
         public GameRoot()
@@ -32,7 +33,22 @@ namespace GhostsGame.Controller
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            level = new Level(new Vector2(0, 0));
+            var level1Description =
+                @"################
+                  #              #
+                  #              #
+                  #              #
+                  #              #
+                  #              #
+                  #              #
+                  #  ######      #
+                  #        ## #  #
+                  #              #
+                  #  P           #
+                  ################";
+
+            screenController = new ScreenController();
+            level1 = screenController.LoadLevelFromText(level1Description);
 
             base.Initialize();
         }
@@ -42,7 +58,7 @@ namespace GhostsGame.Controller
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            renderer = new Renderer(Content, _spriteBatch, level);
+            renderer = new Renderer(Content, _spriteBatch, level1);
             tile = Content.Load<Texture2D>("tile");
         }
 
@@ -53,13 +69,13 @@ namespace GhostsGame.Controller
             var currentKeyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
             if (currentKeyboardState.IsKeyDown(Keys.W))
-                level.Player.Move(Direction.Up);
+                level1.Player.Move(Direction.Up);
             if (currentKeyboardState.IsKeyDown(Keys.S))
-                level.Player.Move(Direction.Down);
+                level1.Player.Move(Direction.Down);
             if (currentKeyboardState.IsKeyDown(Keys.A))
-                level.Player.Move(Direction.Left);
+                level1.Player.Move(Direction.Left);
             if (currentKeyboardState.IsKeyDown(Keys.D))
-                level.Player.Move(Direction.Right);
+                level1.Player.Move(Direction.Right);
 
             base.Update(gameTime);
         }
@@ -71,10 +87,6 @@ namespace GhostsGame.Controller
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             renderer.Update();
-            _spriteBatch.Draw(tile, new Vector2(0, 768 - 2 * 64), Color.White);
-            _spriteBatch.Draw(tile, new Vector2(0, 768 - 64), Color.White);
-            _spriteBatch.Draw(tile, new Vector2(64, 768 - 2 * 64), Color.White);
-            _spriteBatch.Draw(tile, new Vector2(64, 768 - 64), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
