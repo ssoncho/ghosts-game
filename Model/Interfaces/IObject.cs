@@ -12,6 +12,8 @@ namespace GhostsGame.Model.Interfaces
     {
         public Image ImageId { get; }
         public Vector2 Position { get; }
+        //public Vector2 Velocity { get; }
+        //Change Move() to Update()
         void Move(Direction direction);
     }
 }

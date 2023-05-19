@@ -12,11 +12,13 @@ namespace GhostsGame.Model
     public class Level
     {
         public readonly Dictionary<int, IObject> IdsObjects = new();
-        public Player Player { get; set; }
-        public Level(Vector2 initialPlayerPosition)
+        public Player Player { get; set; } //Add PlayerId instead
+        private int currentObjectId = 1;
+
+        public void AddObject(IObject obj)
         {
-            Player = new Player(initialPlayerPosition);
-            IdsObjects.Add(1, Player);
+            IdsObjects[currentObjectId] = obj;
+            currentObjectId++;
         }
     }
 }
