@@ -70,7 +70,7 @@ namespace GhostsGame.View
                         (int)obj.Position.Y * TileSize,
                         texture.Height,
                         texture.Width);
-                    idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
+                    idsViewObjects.Add(pair.Key, new TileUI(rectangle, texture));
                 }
             }
         }
