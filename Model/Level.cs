@@ -12,12 +12,14 @@ namespace GhostsGame.Model
     public class Level
     {
         public readonly Dictionary<int, IObject> IdsObjects = new();
-        public Player Player { get; set; } //Add PlayerId instead
+        public int PlayerId { get; private set; }
         private int currentObjectId = 1;
 
         public void AddObject(IObject obj)
         {
             IdsObjects[currentObjectId] = obj;
+            if (obj is Player)
+                PlayerId = currentObjectId;
             currentObjectId++;
         }
     }

@@ -47,7 +47,7 @@ namespace GhostsGame.Controller
                   #  P           #
                   ################";
 
-            screenController = new ScreenController();
+            screenController = new ScreenController(16, 12);
             level1 = screenController.LoadLevelFromText(level1Description);
 
             base.Initialize();
@@ -69,13 +69,13 @@ namespace GhostsGame.Controller
             var currentKeyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
             if (currentKeyboardState.IsKeyDown(Keys.W))
-                level1.Player.Move(Direction.Up);
+                level1.IdsObjects[level1.PlayerId].Move(Direction.Up);
             if (currentKeyboardState.IsKeyDown(Keys.S))
-                level1.Player.Move(Direction.Down);
+                level1.IdsObjects[level1.PlayerId].Move(Direction.Down);
             if (currentKeyboardState.IsKeyDown(Keys.A))
-                level1.Player.Move(Direction.Left);
+                level1.IdsObjects[level1.PlayerId].Move(Direction.Left);
             if (currentKeyboardState.IsKeyDown(Keys.D))
-                level1.Player.Move(Direction.Right);
+                level1.IdsObjects[level1.PlayerId].Move(Direction.Right);
 
             base.Update(gameTime);
         }

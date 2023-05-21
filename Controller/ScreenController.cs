@@ -10,8 +10,13 @@ namespace GhostsGame.Controller
 {
     public class ScreenController
     {
-        const int TilesCountX = 16;
-        const int TilesCountY = 12;
+        public ScreenController(int tilesCountX, int tilesCountY)
+        {
+            TilesCountX = tilesCountX;
+            TilesCountY = tilesCountY;
+        }
+        private readonly int TilesCountX;
+        private readonly int TilesCountY;
         public Level LoadLevelFromText(string levelDescription)
         {
             Level level = new Level();
