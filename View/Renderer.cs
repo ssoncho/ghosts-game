@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,17 +17,31 @@ namespace GhostsGame.View
     {
         public const int TileSize = 64;
 
-        public PlayerUI Player { get; private set; }
         public readonly Level Level;
         private ContentManager content;
         private SpriteBatch spriteBatch;
         private Dictionary<Image, Texture2D> textures = new();
         private Dictionary<int, ObjectUI> idsViewObjects = new();
-        public Renderer(ContentManager content, SpriteBatch spriteBatch, 
-            Level level)
+
+        public IEnumerable<ObjectUI> ViewObjects
         {
+            get
+            {
+                return idsViewObjects.Values;
+            }
+        }
+
+        public Renderer(Level level, ContentManager content)
+        {
+            Level = level;
             this.content = content;
-            this.spriteBatch = spriteBatch;
+            AddObjectsToDraw();
+        }
+
+        public Renderer(Level level)
+        {
+            this.content = EntryPoint.Game.Content;
+            this.spriteBatch = new SpriteBatch(EntryPoint.Game.GraphicsDevice);
             Level = level;
             textures[Image.Player] = content.Load<Texture2D>("white-ghost-right-weapon");
             textures[Image.StaticTile] = content.Load<Texture2D>("tile");
@@ -35,17 +50,19 @@ namespace GhostsGame.View
 
         public void Update()
         {
+            spriteBatch.Begin();
             foreach (var pair in idsViewObjects)
             {
                 var objId = pair.Key;
                 var viewObj = pair.Value;
-                var newPosition = Level.IdsObjects[objId].Position;
+                var newPosition = Level.IdsObjects[objId].Position * 64;
                 viewObj.Rectangle = new Rectangle(
-                    (int)newPosition.X * 10, (int)newPosition.Y * 10,
+                    (int)newPosition.X, (int)newPosition.Y,
                     viewObj.Rectangle.Width, 
                     viewObj.Rectangle.Height);
                 viewObj.Draw(spriteBatch);
             }
+            spriteBatch.End();
         }
 
         private void AddObjectsToDraw()
@@ -54,22 +71,28 @@ namespace GhostsGame.View
             {
                 var obj = pair.Value;
                 var texture = textures[obj.ImageId];
-                if (obj.ImageId == Image.Player)
+                if (obj is Player)
                 {
                     var rectangle = new Rectangle(
-                        ((int)obj.Position.X - 1) * TileSize, 
-                        ((int)obj.Position.Y - 1) * TileSize, 
+                        ((int)obj.Position.X) * TileSize, 
+                        ((int)obj.Position.Y) * TileSize, 
                         texture.Height, 
                         texture.Width);
+                    Debug.WriteLine(obj.Position);
+                    Debug.WriteLine(rectangle);
+                    Debug.WriteLine("Player");
                     idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
                 }
-                if (obj.ImageId == Image.StaticTile)
+                if (obj is Tile)
                 {
                     var rectangle = new Rectangle(
                         (int)obj.Position.X * TileSize,
                         (int)obj.Position.Y * TileSize,
                         texture.Height,
                         texture.Width);
+                    Debug.WriteLine(obj.Position);
+                    Debug.WriteLine(rectangle);
+                    Debug.WriteLine("Static Tile");
                     idsViewObjects.Add(pair.Key, new TileUI(rectangle, texture));
                 }
             }
