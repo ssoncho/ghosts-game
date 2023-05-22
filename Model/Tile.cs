@@ -9,19 +9,11 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.Model
 {
-    public class Tile : IObject
+    public class Tile : GameObject
     {
-        public Tile(Vector2 initialPosition)
+        public Tile(Vector2 initialPosition) : base(initialPosition)
         {
-            Position = initialPosition;
         }
-        public Image ImageId => Image.StaticTile;
-
-        public Vector2 Position { get; private set; }
-
-        public void Move(Direction direction)
-        {
-            throw new NotImplementedException();
-        }
+        public override Image ImageId => Image.StaticTile;
     }
 }

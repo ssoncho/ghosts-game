@@ -23,21 +23,6 @@ namespace GhostsGame.View
         private Dictionary<Image, Texture2D> textures = new();
         private Dictionary<int, ObjectUI> idsViewObjects = new();
 
-        public IEnumerable<ObjectUI> ViewObjects
-        {
-            get
-            {
-                return idsViewObjects.Values;
-            }
-        }
-
-        public Renderer(Level level, ContentManager content)
-        {
-            Level = level;
-            this.content = content;
-            AddObjectsToDraw();
-        }
-
         public Renderer(Level level)
         {
             this.content = EntryPoint.Game.Content;
@@ -78,9 +63,6 @@ namespace GhostsGame.View
                         ((int)obj.Position.Y) * TileSize, 
                         texture.Height, 
                         texture.Width);
-                    Debug.WriteLine(obj.Position);
-                    Debug.WriteLine(rectangle);
-                    Debug.WriteLine("Player");
                     idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
                 }
                 if (obj is Tile)
@@ -90,9 +72,6 @@ namespace GhostsGame.View
                         (int)obj.Position.Y * TileSize,
                         texture.Height,
                         texture.Width);
-                    Debug.WriteLine(obj.Position);
-                    Debug.WriteLine(rectangle);
-                    Debug.WriteLine("Static Tile");
                     idsViewObjects.Add(pair.Key, new TileUI(rectangle, texture));
                 }
             }
