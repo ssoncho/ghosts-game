@@ -3,37 +3,34 @@ using GhostsGame.Model.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GhostsGame.Model
 {
-    public class Player : IGhost
+    public class Player : GameObject, IGhost
     {
-        public Player(Vector2 initialPosition)
+        public Player(Vector2 initialPosition) : base(initialPosition)
         {
-            Position = initialPosition;
         }
-        public Vector2 Position { get; private set; }
 
-        public Image ImageId => Image.Player;
+        public Player(Vector2 initialPosition, Vector2 initialVelocity) : base(initialPosition, initialVelocity)
+        {
+        }
+
+        public override Image ImageId => Image.Player;
+
+        public override void Update()
+        {
+            base.Update();
+            Velocity = Vector2.Zero;
+        }
 
         public void Attack(IWeapon weapon)
         {
             throw new NotImplementedException();
-        }
-
-        public void Move(Direction direction)
-        {
-            if (direction == Direction.Down)
-                Position += Vector2.UnitY;
-            else if (direction == Direction.Up)
-                Position -= Vector2.UnitY;
-            else if (direction == Direction.Right)
-                Position += Vector2.UnitX;
-            else
-                Position -= Vector2.UnitX;
         }
     }
 }

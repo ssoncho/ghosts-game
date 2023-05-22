@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace GhostsGame.Model.Interfaces
 {
-    public interface IGhost: IObject
+    public interface IGhost
     {
         void Attack(IWeapon weapon);
     }

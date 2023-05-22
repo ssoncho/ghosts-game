@@ -11,6 +11,8 @@ namespace GhostsGame.Model.Enums
         Player,
         Enemy,
         PlayerWeapon,
-        EnemyWeapon
+        EnemyWeapon,
+        StaticTile,
+        MovingTile
     }
 }

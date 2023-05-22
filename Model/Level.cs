@@ -3,6 +3,7 @@ using GhostsGame.Model.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,38 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        public readonly Dictionary<int, IObject> IdsObjects = new();
-        public Player Player { get; set; }
-        public Level(Vector2 initialPlayerPosition)
+        const float velocityF = 0.15f;
+        public readonly Dictionary<int, GameObject> IdsObjects = new();
+        public int PlayerId { get; private set; }
+        private int currentObjectId = 1;
+
+        public void Update()
         {
-            Player = new Player(initialPlayerPosition);
-            IdsObjects.Add(1, Player);
+            foreach (var gameObject in IdsObjects.Values)
+            {
+                gameObject.Update();
+            }
+        }
+
+        public void AddObject(GameObject obj)
+        {
+            IdsObjects[currentObjectId] = obj;
+            if (obj is Player)
+                PlayerId = currentObjectId;
+            currentObjectId++;
+        }
+
+        public void ChangePlayerVelocity(Direction direction)
+        {
+            var player = (Player)IdsObjects[PlayerId];
+            if (direction == Direction.Down)
+                player.Velocity += velocityF * Vector2.UnitY;
+            else if (direction == Direction.Up)
+                player.Velocity += -velocityF * Vector2.UnitY;
+            else if (direction == Direction.Right)
+                player.Velocity += velocityF * Vector2.UnitX;
+            else
+                player.Velocity += -velocityF * Vector2.UnitX;
         }
     }
 }
