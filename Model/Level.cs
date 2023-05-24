@@ -12,10 +12,16 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        const float velocityF = 0.15f;
+        const float velocityF = 8f;
         public readonly Dictionary<int, GameObject> IdsObjects = new();
         public int PlayerId { get; private set; }
+        public int TileSize { get; private set; }
         private int currentObjectId = 1;
+
+        public Level(int tileSize)
+        {
+            TileSize = tileSize;
+        }
 
         public void Update()
         {

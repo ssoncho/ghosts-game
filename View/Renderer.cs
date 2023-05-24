@@ -15,7 +15,7 @@ namespace GhostsGame.View
 {
     public class Renderer
     {
-        public const int TileSize = 64;
+        private int tileSize;
 
         public readonly Level Level;
         private ContentManager content;
@@ -28,6 +28,7 @@ namespace GhostsGame.View
             this.content = EntryPoint.Game.Content;
             this.spriteBatch = new SpriteBatch(EntryPoint.Game.GraphicsDevice);
             Level = level;
+            tileSize = level.TileSize;
             textures[Image.Player] = content.Load<Texture2D>("white-ghost-right-weapon");
             textures[Image.StaticTile] = content.Load<Texture2D>("tile");
             AddObjectsToDraw();
@@ -40,7 +41,7 @@ namespace GhostsGame.View
             {
                 var objId = pair.Key;
                 var viewObj = pair.Value;
-                var newPosition = Level.IdsObjects[objId].Position * 64;
+                var newPosition = Level.IdsObjects[objId].Position;
                 viewObj.Rectangle = new Rectangle(
                     (int)newPosition.X, (int)newPosition.Y,
                     viewObj.Rectangle.Width, 
@@ -59,8 +60,8 @@ namespace GhostsGame.View
                 if (obj is Player)
                 {
                     var rectangle = new Rectangle(
-                        ((int)obj.Position.X) * TileSize, 
-                        ((int)obj.Position.Y) * TileSize, 
+                        (int)obj.Position.X, 
+                        (int)obj.Position.Y, 
                         texture.Height, 
                         texture.Width);
                     idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
@@ -68,8 +69,8 @@ namespace GhostsGame.View
                 if (obj is Tile)
                 {
                     var rectangle = new Rectangle(
-                        (int)obj.Position.X * TileSize,
-                        (int)obj.Position.Y * TileSize,
+                        (int)obj.Position.X,
+                        (int)obj.Position.Y,
                         texture.Height,
                         texture.Width);
                     idsViewObjects.Add(pair.Key, new TileUI(rectangle, texture));
