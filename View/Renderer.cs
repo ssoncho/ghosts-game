@@ -54,28 +54,20 @@ namespace GhostsGame.View
         private void AddObjectsToDraw()
         {
             foreach (var pair in Level.IdsObjects)
-            {
-                var obj = pair.Value;
-                var texture = textures[obj.ImageId];
-                if (obj is Player)
-                {
-                    var rectangle = new Rectangle(
-                        (int)obj.Position.X, 
-                        (int)obj.Position.Y, 
-                        texture.Height, 
-                        texture.Width);
-                    idsViewObjects.Add(pair.Key, new PlayerUI(rectangle, texture));
-                }
-                if (obj is Tile)
-                {
-                    var rectangle = new Rectangle(
+                AddObjectToDraw(pair.Value, pair.Key, textures[pair.Value.ImageId]);
+        }
+
+        private void AddObjectToDraw(GameObject obj, int objId, Texture2D texture)
+        {
+            var rectangle = new Rectangle(
                         (int)obj.Position.X,
                         (int)obj.Position.Y,
                         texture.Height,
                         texture.Width);
-                    idsViewObjects.Add(pair.Key, new TileUI(rectangle, texture));
-                }
-            }
+            if (obj is Player)
+                idsViewObjects.Add(objId, new PlayerUI(rectangle, texture));
+            if (obj is Tile)
+                idsViewObjects.Add(objId, new TileUI(rectangle, texture));
         }
     }
 }
