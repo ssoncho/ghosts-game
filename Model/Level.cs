@@ -14,6 +14,11 @@ namespace GhostsGame.Model
     {
         const float velocityF = 8f;
         public readonly Dictionary<int, GameObject> IdsObjects = new();
+        private Dictionary<Direction, Vector2> directionsVectors = new() {
+            { Direction.Up, -velocityF * Vector2.UnitY },
+            { Direction.Down, velocityF * Vector2.UnitY },
+            { Direction.Left, -velocityF * Vector2.UnitX },
+            { Direction.Right, velocityF * Vector2.UnitX },};
         public int PlayerId { get; private set; }
         public int TileSize { get; private set; }
         private int currentObjectId = 1;
@@ -25,6 +30,7 @@ namespace GhostsGame.Model
 
         public void Update()
         {
+            //add collisions
             foreach (var gameObject in IdsObjects.Values)
             {
                 gameObject.Update();
@@ -42,14 +48,25 @@ namespace GhostsGame.Model
         public void ChangePlayerVelocity(Direction direction)
         {
             var player = (Player)IdsObjects[PlayerId];
-            if (direction == Direction.Down)
-                player.Velocity += velocityF * Vector2.UnitY;
-            else if (direction == Direction.Up)
-                player.Velocity += -velocityF * Vector2.UnitY;
-            else if (direction == Direction.Right)
-                player.Velocity += velocityF * Vector2.UnitX;
-            else
-                player.Velocity += -velocityF * Vector2.UnitX;
+
+            player.Velocity += directionsVectors[direction];
+        }
+
+        private bool IsPlayerCollided(Player player)
+        {
+            var isCollided = false;
+            foreach (var obj in IdsObjects.Values)
+            {
+                if (obj is ISolid solidObj)
+                {
+                    if (!(solidObj is Player) && RectangleCollider.IsCollided(solidObj.Collider, player.Collider))
+                    {
+                        isCollided = true;
+                        break;
+                    }
+                }
+            }
+            return isCollided;
         }
     }
 }
