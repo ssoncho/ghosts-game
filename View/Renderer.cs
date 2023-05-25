@@ -1,5 +1,6 @@
 ﻿using GhostsGame.Model;
 using GhostsGame.Model.Enums;
+using GhostsGame.Model.Interfaces;
 using GhostsGame.View.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -57,7 +58,7 @@ namespace GhostsGame.View
                 AddObjectToDraw(pair.Value, pair.Key, textures[pair.Value.ImageId]);
         }
 
-        private void AddObjectToDraw(GameObject obj, int objId, Texture2D texture)
+        private void AddObjectToDraw(IObject obj, int objId, Texture2D texture)
         {
             var rectangle = new Rectangle(
                         (int)obj.Position.X,
