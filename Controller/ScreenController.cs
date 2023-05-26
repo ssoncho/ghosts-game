@@ -10,24 +10,26 @@ namespace GhostsGame.Controller
 {
     public class ScreenController
     {
-        public ScreenController(int tilesCountX, int tilesCountY)
+        public ScreenController(int tilesCountX, int tilesCountY, int tileSize)
         {
-            TilesCountX = tilesCountX;
-            TilesCountY = tilesCountY;
+            this.tilesCountX = tilesCountX;
+            this.tilesCountY = tilesCountY;
+            this.tileSize = tileSize;
         }
-        private readonly int TilesCountX;
-        private readonly int TilesCountY;
+        private readonly int tilesCountX;
+        private readonly int tilesCountY;
+        private readonly int tileSize;
         public Level LoadLevelFromText(string levelDescription)
         {
-            Level level = new Level();
+            Level level = new Level(tileSize);
             for (int i = 0; i < levelDescription.Length; i++)
             {
-                var x = i % TilesCountX;
-                var y = i / TilesCountX;
+                var x = i % tilesCountX;
+                var y = i / tilesCountX;
                 if (levelDescription[i] == '#')
-                    level.AddObject(new Tile(new Vector2(x, y)));
+                    level.AddObject(new Tile(tileSize * new Vector2(x, y)));
                 else if (levelDescription[i] == 'P')
-                    level.AddObject(new Player(new Vector2(x, y)));
+                    level.AddObject(new Player(tileSize * new Vector2(x, y)));
             }
             return level;
         }

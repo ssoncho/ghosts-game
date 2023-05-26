@@ -10,27 +10,41 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.Model
 {
-    public class Player : GameObject, IGhost
+    public class Player : IObject, IGhost, ISolid
     {
-        public Player(Vector2 initialPosition) : base(initialPosition)
+        public Player(Vector2 position)
         {
+            Position = position;
         }
 
-        public Player(Vector2 initialPosition, Vector2 initialVelocity) : base(initialPosition, initialVelocity)
-        {
-        }
+        public Image ImageId => Image.Player;
 
-        public override Image ImageId => Image.Player;
+        public Vector2 Position { get; private set; }
 
-        public override void Update()
-        {
-            base.Update();
-            Velocity = Vector2.Zero;
-        }
+        public Vector2 Velocity { get; set; } = Vector2.Zero;
+
+        public RectangleCollider Collider { get; set; }
 
         public void Attack(IWeapon weapon)
         {
             throw new NotImplementedException();
+        }
+
+        public void Move(Vector2 newPosition)
+        {
+            Position = newPosition;
+            MoveCollider();
+        }
+
+        public void MoveCollider()
+        {
+            Collider = new RectangleCollider((int)Position.X, (int)Position.Y, 128, 128);
+        }
+
+        public void Update()
+        {
+            Move(Position + Velocity);
+            Velocity = Vector2.Zero;
         }
     }
 }

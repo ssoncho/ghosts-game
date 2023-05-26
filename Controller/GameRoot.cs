@@ -13,6 +13,10 @@ namespace GhostsGame.Controller
 {
     public class GameRoot : Game
     {
+        private const int tileSize = 64;
+        private const int screenHeight = 768;
+        private const int screenWidth = 1024;
+
         private GraphicsDeviceManager _graphics;
         //private SpriteBatch _spriteBatch;
 
@@ -24,8 +28,8 @@ namespace GhostsGame.Controller
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
+            _graphics.PreferredBackBufferWidth = screenWidth;
+            _graphics.PreferredBackBufferHeight = screenHeight;
             _graphics.ApplyChanges();
         }
 
@@ -45,8 +49,7 @@ namespace GhostsGame.Controller
 #  P           #
 #              #
 ################".Replace("\r\n", string.Empty);
-
-            screenController = new ScreenController(16, 12);
+            screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);
             level1 = screenController.LoadLevelFromText(level1Description);
 
             base.Initialize();

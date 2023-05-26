@@ -8,25 +8,27 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.Model
 {
-    public abstract class GameObject
-    {
-        public GameObject(Vector2 initialPosition)
-        {
-            Position = initialPosition;
-        }
+    //public abstract class IObject
+    //{
+    //    public IObject(Vector2 initialPosition)
+    //    {
+    //        Position = initialPosition;
+    //    }
 
-        public GameObject(Vector2 initialPosition, Vector2 initialVelocity) : this(initialPosition)
-        {
-            Velocity = initialVelocity;
-        }
+    //    public IObject(Vector2 initialPosition, Vector2 initialVelocity) : this(initialPosition)
+    //    {
+    //        Velocity = initialVelocity;
+    //    }
 
-        public abstract Image ImageId { get; }
-        public Vector2 Position { get; set; } = Vector2.Zero;
-        public Vector2 Velocity { get; set; } = Vector2.Zero;
+    //    public abstract Image ImageId { get; }
+    //    public Vector2 Position { get; private set; } = Vector2.Zero;
+    //    public Vector2 Velocity { get; set; } = Vector2.Zero;
 
-        public virtual void Update()
-        {
-            Position += Velocity;
-        }
-    }
+    //    public virtual void Update()
+    //    {
+    //        Position += Velocity;
+    //    }
+
+    //    public abstract void Move(Vector2 newPosition);
+    //}
 }
