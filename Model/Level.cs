@@ -14,12 +14,14 @@ namespace GhostsGame.Model
     {
         private const float velocityF = 8f;
         private const int firstObjectId = 1;
+
+        public bool IsPlayerCollided { get; private set; } = false;
+        public Vector2 Gravity { get; private set; } = new Vector2(0, 2f);
         public readonly Dictionary<int, IObject> IdsObjects = new();
-        private Dictionary<Direction, Vector2> directionsVectors = new() {
-            { Direction.Up, -velocityF * Vector2.UnitY },
-            { Direction.Down, velocityF * Vector2.UnitY },
+        private Dictionary<Direction, Vector2> walkingDirectionsVectors = new() {
             { Direction.Left, -velocityF * Vector2.UnitX },
-            { Direction.Right, velocityF * Vector2.UnitX },};
+            { Direction.Right, velocityF * Vector2.UnitX }};
+        
         public int PlayerId { get; private set; }
         public int TileSize { get; private set; }
         private int currentObjectId = firstObjectId;
@@ -38,13 +40,14 @@ namespace GhostsGame.Model
                 IdsObjects[id].Update();
                 idsInitialPositions[id] = initialPosition;
             }
+            IsPlayerCollided = false;
             foreach (var firstObjectId in idsInitialPositions.Keys)
             {
                 foreach (var secondObjectId in idsInitialPositions.Keys)
                 {
                     if (firstObjectId == secondObjectId)
                         continue;
-                    MoveIfCollision(
+                    MoveBackIfCollision(
                       (idsInitialPositions[firstObjectId], firstObjectId),
                       (idsInitialPositions[secondObjectId], secondObjectId)
                     );
@@ -56,17 +59,15 @@ namespace GhostsGame.Model
             //}
         }
 
-        private void MoveIfCollision(
+        private void MoveBackIfCollision(
                 (Vector2 InitPos, int Id) firstObjInfo,
                 (Vector2 InitPos, int Id) secondObjInfo)
         {
-            bool isCollided = false;
             if (IdsObjects[firstObjInfo.Id] is ISolid firstSolidObj && IdsObjects[secondObjInfo.Id] is ISolid secondSolidObj)
             {
                 var oppositeDirection = new Vector2(0, 0);
                 while (RectangleCollider.IsCollided(firstSolidObj.Collider, secondSolidObj.Collider))
                 {
-                    isCollided = true;
                     if (firstObjInfo.InitPos != IdsObjects[firstObjInfo.Id].Position)
                     {
                         oppositeDirection = IdsObjects[firstObjInfo.Id].Position - firstObjInfo.InitPos;
@@ -79,11 +80,9 @@ namespace GhostsGame.Model
                         oppositeDirection.Normalize();
                         IdsObjects[secondObjInfo.Id].Move(IdsObjects[secondObjInfo.Id].Position - oppositeDirection);
                     }
+                    if (IdsObjects[firstObjInfo.Id] is Player || IdsObjects[secondObjInfo.Id] is Player)
+                        IsPlayerCollided = true;
                 }
-            }
-            if (isCollided)
-            {
-                //
             }
         }
 
@@ -97,26 +96,14 @@ namespace GhostsGame.Model
 
         public void ChangePlayerVelocity(Direction direction)
         {
-            var player = (Player)IdsObjects[PlayerId];
-
-            player.Velocity += directionsVectors[direction];
+            ChangePlayerVelocity(walkingDirectionsVectors[direction]);
         }
 
-        private bool IsPlayerCollided(Player player)
+        public void ChangePlayerVelocity(Vector2 newVelocity)
         {
-            var isCollided = false;
-            foreach (var obj in IdsObjects.Values)
-            {
-                if (obj is ISolid solidObj)
-                {
-                    if (!(solidObj is Player) && RectangleCollider.IsCollided(solidObj.Collider, player.Collider))
-                    {
-                        isCollided = true;
-                        break;
-                    }
-                }
-            }
-            return isCollided;
+            var player = (Player)IdsObjects[PlayerId];
+
+            player.Velocity += newVelocity;
         }
     }
 }

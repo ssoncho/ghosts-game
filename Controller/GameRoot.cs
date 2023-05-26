@@ -22,6 +22,7 @@ namespace GhostsGame.Controller
 
         private Level level1;
         private ScreenController screenController;
+        private PlayerController playerController;
         private Renderer renderer;
         public GameRoot()
         {
@@ -46,20 +47,18 @@ namespace GhostsGame.Controller
 #              #
 #  ######      #
 #        ## #  #
-#  P           #
+#P             #
 #              #
 ################".Replace("\r\n", string.Empty);
             screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);
             level1 = screenController.LoadLevelFromText(level1Description);
+            playerController = new PlayerController(level1);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            //_spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
             renderer = new Renderer(level1);
         }
 
@@ -67,16 +66,7 @@ namespace GhostsGame.Controller
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            var currentKeyboardState = Keyboard.GetState();
-            // TODO: Add your update logic here
-            if (currentKeyboardState.IsKeyDown(Keys.W))
-                level1.ChangePlayerVelocity(Direction.Up);
-            if (currentKeyboardState.IsKeyDown(Keys.S))
-                level1.ChangePlayerVelocity(Direction.Down);
-            if (currentKeyboardState.IsKeyDown(Keys.A))
-                level1.ChangePlayerVelocity(Direction.Left);
-            if (currentKeyboardState.IsKeyDown(Keys.D))
-                level1.ChangePlayerVelocity(Direction.Right);
+            playerController.Jump();
             level1.Update();
             base.Update(gameTime);
         }
