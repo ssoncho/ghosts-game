@@ -45,7 +45,7 @@ namespace GhostsGame.Model
         public void Update()
         {
             Move(Position + Velocity);
-            Velocity = Vector2.Zero;
+            //Velocity = Vector2.Zero;
         }
     }
 }

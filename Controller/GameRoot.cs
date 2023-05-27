@@ -66,7 +66,7 @@ namespace GhostsGame.Controller
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            playerController.Jump();
+            playerController.Update();
             level1.Update();
             base.Update(gameTime);
         }

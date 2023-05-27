@@ -19,5 +19,14 @@ namespace GhostsGame.Model
         {
             return r1.Boundary.Intersects(r2.Boundary);
         }
+
+        public static bool IsPlayerOnTopOf(RectangleCollider pr, RectangleCollider r2)
+        {
+            var playerRectangle = pr.Boundary;
+            var anotherRectangle = r2.Boundary;
+            return playerRectangle.Bottom == anotherRectangle.Top &&
+                 playerRectangle.Right >= anotherRectangle.Right &&
+                 playerRectangle.Left <= anotherRectangle.Left;
+        }
     }
 }

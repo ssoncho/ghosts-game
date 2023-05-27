@@ -1,4 +1,5 @@
-﻿using GhostsGame.Model.Enums;
+﻿using GhostsGame.Controller;
+using GhostsGame.Model.Enums;
 using GhostsGame.Model.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
@@ -12,16 +13,20 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        private const float velocityF = 8f;
+        private const float velocityF = 16f;
+        private const float jumpingVelocityF = 32f;
         private const int firstObjectId = 1;
 
         public bool IsPlayerCollided { get; private set; } = false;
         public Vector2 Gravity { get; private set; } = new Vector2(0, 2f);
         public readonly Dictionary<int, IObject> IdsObjects = new();
-        private Dictionary<Direction, Vector2> walkingDirectionsVectors = new() {
+        private Dictionary<Direction, Vector2> directionsVectors = new() {
+            { Direction.Up, -jumpingVelocityF * Vector2.UnitY },
+            { Direction.Down, jumpingVelocityF * Vector2.UnitY },
             { Direction.Left, -velocityF * Vector2.UnitX },
             { Direction.Right, velocityF * Vector2.UnitX }};
-        
+        private bool isPlayerJumping = false;
+
         public int PlayerId { get; private set; }
         public int TileSize { get; private set; }
         private int currentObjectId = firstObjectId;
@@ -33,11 +38,23 @@ namespace GhostsGame.Model
 
         public void Update()
         {
+            var isPlayerOnGround = false;
             var idsInitialPositions = new Dictionary<int, Vector2>();
             foreach (var id in IdsObjects.Keys)
             {
                 Vector2 initialPosition = IdsObjects[id].Position;
+                if (id == PlayerId)
+                {
+                    if (isPlayerJumping)
+                    {
+                        MovePlayerUpDown();
+                    }
+                    Debug.WriteLine(isPlayerJumping);
+                    Debug.WriteLine(IdsObjects[PlayerId].Velocity);
+                }
                 IdsObjects[id].Update();
+                if (id == PlayerId)
+                    StopPlayerSideMovement();
                 idsInitialPositions[id] = initialPosition;
             }
             IsPlayerCollided = false;
@@ -51,12 +68,28 @@ namespace GhostsGame.Model
                       (idsInitialPositions[firstObjectId], firstObjectId),
                       (idsInitialPositions[secondObjectId], secondObjectId)
                     );
+                    if (firstObjectId == PlayerId
+                        && IdsObjects[secondObjectId] is ISolid solidObj
+                        && !isPlayerOnGround)
+                        isPlayerOnGround = IsPlayerOnGround((Player)IdsObjects[PlayerId], solidObj);
                 }
             }
-            //foreach (var gameObject in IdsObjects.Values)
-            //{
-            //    gameObject.Update();
-            //}
+
+            if (IsPlayerCollided || isPlayerOnGround)
+            {
+                StopPlayerMovement();
+                if (isPlayerOnGround)
+                {
+                    isPlayerJumping = false;
+                    Debug.WriteLine(IdsObjects[PlayerId].Velocity);
+                }
+            }
+
+            if (!isPlayerOnGround && !isPlayerJumping)
+                MovePlayerUpDown();
+
+            //make isPlayerJumping falseAAAAAAAAAAAAAAAAA, make acceleration when W is pressed
+            //ADD MAX HEIGHT
         }
 
         private void MoveBackIfCollision(
@@ -86,6 +119,9 @@ namespace GhostsGame.Model
             }
         }
 
+        private bool IsPlayerOnGround(Player player, ISolid solidObj) =>
+            RectangleCollider.IsPlayerOnTopOf(player.Collider, solidObj.Collider);
+
         public void AddObject(IObject obj)
         {
             IdsObjects[currentObjectId] = obj;
@@ -96,7 +132,7 @@ namespace GhostsGame.Model
 
         public void ChangePlayerVelocity(Direction direction)
         {
-            ChangePlayerVelocity(walkingDirectionsVectors[direction]);
+            ChangePlayerVelocity(directionsVectors[direction]);
         }
 
         public void ChangePlayerVelocity(Vector2 newVelocity)
@@ -104,6 +140,32 @@ namespace GhostsGame.Model
             var player = (Player)IdsObjects[PlayerId];
 
             player.Velocity += newVelocity;
+        }
+
+        public void StopPlayerMovement()
+        {
+            var player = (Player)IdsObjects[PlayerId];
+
+            player.Velocity = Vector2.Zero;
+        }
+        public void StopPlayerSideMovement()
+        {
+            var player = (Player)IdsObjects[PlayerId];
+
+            player.Velocity = new Vector2(0, player.Velocity.Y);
+        }
+
+        public void OnPlayerStartMovement(object sender, PlayerMovementEventArgs e)
+        {
+            if (!isPlayerJumping || e.Direction == Direction.Left || e.Direction == Direction.Right)
+                ChangePlayerVelocity(e.Direction);
+            if (e.Direction == Direction.Up || e.Direction == Direction.Down)
+                isPlayerJumping = true;
+        }
+
+        public void MovePlayerUpDown()
+        {
+            ChangePlayerVelocity(Gravity);
         }
     }
 }
