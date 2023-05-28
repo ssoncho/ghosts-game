@@ -39,13 +39,13 @@ namespace GhostsGame.Model
 
         public void MoveCollider()
         {
-            Collider = new RectangleCollider((int)Position.X, (int)Position.Y, 128, 128);
+            Collider = new RectangleCollider((int)Position.X, (int)Position.Y, 64, 128);
         }
 
         public void Update()
         {
             Move(Position + Velocity);
-            Velocity = Vector2.Zero;
+            //Velocity = Vector2.Zero;
         }
     }
 }

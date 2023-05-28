@@ -30,7 +30,7 @@ namespace GhostsGame.View
             this.spriteBatch = new SpriteBatch(EntryPoint.Game.GraphicsDevice);
             Level = level;
             tileSize = level.TileSize;
-            textures[Image.Player] = content.Load<Texture2D>("white-ghost-right-weapon");
+            textures[Image.Player] = content.Load<Texture2D>("pixil2");
             textures[Image.StaticTile] = content.Load<Texture2D>("tile");
             AddObjectsToDraw();
         }
@@ -63,8 +63,8 @@ namespace GhostsGame.View
             var rectangle = new Rectangle(
                         (int)obj.Position.X,
                         (int)obj.Position.Y,
-                        texture.Height,
-                        texture.Width);
+                        texture.Width,
+                        texture.Height);
             if (obj is Player)
                 idsViewObjects.Add(objId, new PlayerUI(rectangle, texture));
             if (obj is Tile)
