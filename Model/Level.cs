@@ -38,45 +38,39 @@ namespace GhostsGame.Model
 
         public void Update()
         {
-            var isPlayerOnGround = false;
             var idsInitialPositions = new Dictionary<int, Vector2>();
             foreach (var id in IdsObjects.Keys)
             {
                 Vector2 initialPosition = IdsObjects[id].Position;
-                if (id == PlayerId)
-                {
-                    if (isPlayerJumping)
-                    {
-                        MovePlayerUpDown();
-                    }
-                }
+                if (id == PlayerId && isPlayerJumping)
+                    MovePlayerUpDown();
                 IdsObjects[id].Update();
                 if (id == PlayerId)
                     StopPlayerSideMovement();
                 idsInitialPositions[id] = initialPosition;
             }
             IsPlayerCollided = false;
+            var isPlayerOnGround = false;
+            var processedObjects = new HashSet<(int, int)>();
             foreach (var firstObjectId in idsInitialPositions.Keys)
             {
                 foreach (var secondObjectId in idsInitialPositions.Keys)
                 {
-                    if (firstObjectId == secondObjectId)
+                    if (firstObjectId == secondObjectId || processedObjects.Contains((secondObjectId, firstObjectId)))
                         continue;
                     MoveBackIfCollision(
                       (idsInitialPositions[firstObjectId], firstObjectId),
                       (idsInitialPositions[secondObjectId], secondObjectId)
                     );
                     if (firstObjectId == PlayerId
-                        && IdsObjects[secondObjectId] is ISolid solidObj
+                        && IdsObjects[secondObjectId] is Tile tile
                         && !isPlayerOnGround)
-                        isPlayerOnGround = IsPlayerOnGround((Player)IdsObjects[PlayerId], solidObj);
+                        isPlayerOnGround = IsPlayerOnGround((Player)IdsObjects[PlayerId], tile);
                 }
             }
 
             if (IsPlayerCollided || isPlayerOnGround)
-            {
                 StopPlayerMovement();
-            }
             
             isPlayerJumping = !isPlayerOnGround;
         }
@@ -90,6 +84,14 @@ namespace GhostsGame.Model
                 var oppositeDirection = new Vector2(0, 0);
                 while (RectangleCollider.IsCollided(firstSolidObj.Collider, secondSolidObj.Collider))
                 {
+                    if (firstSolidObj is Player || secondSolidObj is Player)
+                    {
+                        IsPlayerCollided = true;
+                        if (firstSolidObj is Enemy || secondSolidObj is Enemy)
+                        {
+                            return;
+                        }
+                    }
                     if (firstObjInfo.InitPos != IdsObjects[firstObjInfo.Id].Position)
                     {
                         oppositeDirection = IdsObjects[firstObjInfo.Id].Position - firstObjInfo.InitPos;
@@ -102,8 +104,6 @@ namespace GhostsGame.Model
                         oppositeDirection.Normalize();
                         IdsObjects[secondObjInfo.Id].Move(IdsObjects[secondObjInfo.Id].Position - oppositeDirection);
                     }
-                    if (IdsObjects[firstObjInfo.Id] is Player || IdsObjects[secondObjInfo.Id] is Player)
-                        IsPlayerCollided = true;
                 }
             }
         }
