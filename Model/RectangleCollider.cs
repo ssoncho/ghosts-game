@@ -24,9 +24,11 @@ namespace GhostsGame.Model
         {
             var playerRectangle = pr.Boundary;
             var anotherRectangle = r2.Boundary;
-            return playerRectangle.Bottom == anotherRectangle.Top &&
-                 playerRectangle.Right >= anotherRectangle.Right &&
-                 playerRectangle.Left <= anotherRectangle.Left;
+            return playerRectangle.Bottom == anotherRectangle.Top 
+                && playerRectangle.Right >= anotherRectangle.Left
+                && playerRectangle.Left <= anotherRectangle.Right
+                && !(playerRectangle.Left <= anotherRectangle.Left && playerRectangle.Right <= anotherRectangle.Left)
+                && !(playerRectangle.Left >= anotherRectangle.Right && playerRectangle.Right >= anotherRectangle.Right);
         }
     }
 }

@@ -46,8 +46,8 @@ namespace GhostsGame.Controller
 #              #
 #              #
 #  ######      #
-#        ## #  #
-#P             #
+#        ##    #
+#P           ###
 #              #
 ################".Replace("\r\n", string.Empty);
             screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);

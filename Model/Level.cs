@@ -13,8 +13,8 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        private const float velocityF = 16f;
-        private const float jumpingVelocityF = 32f;
+        private const float velocityF = 10f;
+        private const float jumpingVelocityF = 24f;
         private const int firstObjectId = 1;
 
         public bool IsPlayerCollided { get; private set; } = false;
@@ -49,8 +49,6 @@ namespace GhostsGame.Model
                     {
                         MovePlayerUpDown();
                     }
-                    Debug.WriteLine(isPlayerJumping);
-                    Debug.WriteLine(IdsObjects[PlayerId].Velocity);
                 }
                 IdsObjects[id].Update();
                 if (id == PlayerId)
@@ -78,18 +76,9 @@ namespace GhostsGame.Model
             if (IsPlayerCollided || isPlayerOnGround)
             {
                 StopPlayerMovement();
-                if (isPlayerOnGround)
-                {
-                    isPlayerJumping = false;
-                    Debug.WriteLine(IdsObjects[PlayerId].Velocity);
-                }
             }
-
-            if (!isPlayerOnGround && !isPlayerJumping)
-                MovePlayerUpDown();
-
-            //make isPlayerJumping falseAAAAAAAAAAAAAAAAA, make acceleration when W is pressed
-            //ADD MAX HEIGHT
+            
+            isPlayerJumping = !isPlayerOnGround;
         }
 
         private void MoveBackIfCollision(
