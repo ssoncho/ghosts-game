@@ -1,4 +1,5 @@
 ﻿using GhostsGame.Model;
+using GhostsGame.Model.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace GhostsGame.Controller
                     level.AddObject(new Tile(tileSize * new Vector2(x, y)));
                 else if (levelDescription[i] == 'P')
                     level.AddObject(new Player(tileSize * new Vector2(x, y)));
+                else if (levelDescription[i] == 'E')
+                    level.AddObject(new Enemy(tileSize * new Vector2(x, y)));
             }
             return level;
         }

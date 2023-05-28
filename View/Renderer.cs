@@ -32,6 +32,7 @@ namespace GhostsGame.View
             tileSize = level.TileSize;
             textures[Image.Player] = content.Load<Texture2D>("pixil2");
             textures[Image.StaticTile] = content.Load<Texture2D>("tile");
+            textures[Image.Enemy] = content.Load<Texture2D>("black-ghost-right-weapon");
             AddObjectsToDraw();
         }
 
@@ -69,6 +70,8 @@ namespace GhostsGame.View
                 idsViewObjects.Add(objId, new PlayerUI(rectangle, texture));
             if (obj is Tile)
                 idsViewObjects.Add(objId, new TileUI(rectangle, texture));
+            if (obj is Enemy)
+                idsViewObjects.Add(objId, new EnemyUI(rectangle, texture));
         }
     }
 }

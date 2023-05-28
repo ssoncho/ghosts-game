@@ -43,7 +43,7 @@ namespace GhostsGame.Controller
 #              #
 #              #
 #              #
-#              #
+#  E           #
 #              #
 #  ######      #
 #        ##    #
@@ -73,7 +73,7 @@ namespace GhostsGame.Controller
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DimGray);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             renderer.Update();
