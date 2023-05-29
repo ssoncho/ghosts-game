@@ -58,13 +58,12 @@ namespace GhostsGame.Model
             }
             IsPlayerCollided = false;
             var isPlayerOnGround = false;
-            var processedObjects = new HashSet<(int, int)>();
             foreach (var firstObjectId in idsInitialPositions.Keys)
             {
                 foreach (var secondObjectId in idsInitialPositions.Keys)
                 {
-                    if (firstObjectId == secondObjectId || processedObjects.Contains((secondObjectId, firstObjectId))
-                        || !IdsObjects.ContainsKey(secondObjectId))
+                    if (firstObjectId == secondObjectId
+                        || !IdsObjects.ContainsKey(secondObjectId) || !IdsObjects.ContainsKey(firstObjectId))
                         continue;
                     MoveBackIfCollision(
                       (idsInitialPositions[firstObjectId], firstObjectId),
@@ -83,7 +82,6 @@ namespace GhostsGame.Model
 
             if (IsPlayerCollided || isPlayerOnGround)
                 StopPlayerMovement();
-            
             isPlayerJumping = !isPlayerOnGround;
         }
 

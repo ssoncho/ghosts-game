@@ -41,13 +41,13 @@ namespace GhostsGame.Controller
 @"################
 #  F           #
 #              #
-#              #
-#              #
-##             #
-#   F   #      #
-#  ##          #
-#    #    ##  F#
-#P      #    ###
+#           F  #
+#   ##  P   #  #
+##        #    #
+#      ##      #
+#    F#        #
+#   ##    ##  F#
+###     #    ###
 #              #
 ################".Replace("\r\n", string.Empty);
             screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);
