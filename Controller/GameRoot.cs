@@ -39,15 +39,15 @@ namespace GhostsGame.Controller
             // TODO: Add your initialization logic here
             var level1Description =
 @"################
+#  F           #
 #              #
 #              #
 #              #
-#              #
-#              #
-#              #
-#  ######      #
-#        ##    #
-#P           ###
+##             #
+#   F   #      #
+#  ##          #
+#    #    ##  F#
+#P      #    ###
 #              #
 ################".Replace("\r\n", string.Empty);
             screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);
@@ -73,8 +73,6 @@ namespace GhostsGame.Controller
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DimGray);
-
             // TODO: Add your drawing code here
             renderer.Update();
 

@@ -1,4 +1,5 @@
 ﻿using GhostsGame.Model;
+using GhostsGame.Model.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace GhostsGame.Controller
         public Level LoadLevelFromText(string levelDescription)
         {
             Level level = new Level(tileSize);
+            var maxScore = 0;
             for (int i = 0; i < levelDescription.Length; i++)
             {
                 var x = i % tilesCountX;
@@ -30,7 +32,13 @@ namespace GhostsGame.Controller
                     level.AddObject(new Tile(tileSize * new Vector2(x, y)));
                 else if (levelDescription[i] == 'P')
                     level.AddObject(new Player(tileSize * new Vector2(x, y)));
+                else if (levelDescription[i] == 'F')
+                {
+                    level.AddObject(new Fire(tileSize * new Vector2(x, y)));
+                    maxScore++;
+                }
             }
+            level.SetMaxScore(maxScore);
             return level;
         }
     }

@@ -9,6 +9,7 @@ namespace GhostsGame.Model.Enums
     public enum Image
     {
         Player,
+        Fire,
         Enemy,
         PlayerWeapon,
         EnemyWeapon,
