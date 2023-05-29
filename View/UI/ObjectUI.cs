@@ -10,6 +10,11 @@ namespace GhostsGame.View.UI
 {
     public abstract class ObjectUI
     {
+        public ObjectUI(Vector2 position)
+        {
+            Rectangle = new Rectangle((int)position.X, (int)position.Y, 0, 0);
+        }
+
         public ObjectUI(Rectangle rectangle, Texture2D texture)
         {
             Rectangle = rectangle;
@@ -21,7 +26,8 @@ namespace GhostsGame.View.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Rectangle, Color.White);
+            if (Texture != null)
+                spriteBatch.Draw(Texture, Rectangle, Color.White);
         }
     }
 }

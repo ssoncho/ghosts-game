@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.View.UI
 {
-    public class EnemyUI : ObjectUI
+    public class ScoreUI : ObjectUI
     {
-        public EnemyUI(Rectangle rectangle, Texture2D texture) : base(rectangle, texture)
+        public ScoreUI(Vector2 position) : base(position)
         {
         }
     }

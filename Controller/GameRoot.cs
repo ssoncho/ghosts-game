@@ -39,15 +39,15 @@ namespace GhostsGame.Controller
             // TODO: Add your initialization logic here
             var level1Description =
 @"################
+#  F           #
 #              #
 #              #
+#        #     #
+##             #
 #              #
-#              #
-#  E           #
-#              #
-#  ######      #
-#        ##    #
-#P           ###
+#  ##          #
+#    #    ##  F#
+#P      #    ###
 #              #
 ################".Replace("\r\n", string.Empty);
             screenController = new ScreenController(screenWidth / tileSize, screenHeight / tileSize, tileSize);

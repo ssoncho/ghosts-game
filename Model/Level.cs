@@ -13,8 +13,8 @@ namespace GhostsGame.Model
 {
     public class Level
     {
-        private const float velocityF = 10f;
-        private const float jumpingVelocityF = 24f;
+        private const float velocityF = 8f;
+        private const float jumpingVelocityF = 25f;
         private const int firstObjectId = 1;
 
         public bool IsPlayerCollided { get; private set; } = false;
@@ -27,6 +27,8 @@ namespace GhostsGame.Model
             { Direction.Right, velocityF * Vector2.UnitX }};
         private bool isPlayerJumping = false;
 
+        public int MaxScore { get; private set; }
+        public int CurrentScore { get; private set; }
         public int PlayerId { get; private set; }
         public int TileSize { get; private set; }
         private int currentObjectId = firstObjectId;
@@ -34,6 +36,11 @@ namespace GhostsGame.Model
         public Level(int tileSize)
         {
             TileSize = tileSize;
+        }
+
+        public void SetMaxScore(int maxScore)
+        {
+            MaxScore = maxScore;
         }
 
         public void Update()
@@ -56,12 +63,17 @@ namespace GhostsGame.Model
             {
                 foreach (var secondObjectId in idsInitialPositions.Keys)
                 {
-                    if (firstObjectId == secondObjectId || processedObjects.Contains((secondObjectId, firstObjectId)))
+                    if (firstObjectId == secondObjectId || processedObjects.Contains((secondObjectId, firstObjectId))
+                        || !IdsObjects.ContainsKey(secondObjectId))
                         continue;
                     MoveBackIfCollision(
                       (idsInitialPositions[firstObjectId], firstObjectId),
                       (idsInitialPositions[secondObjectId], secondObjectId)
                     );
+                    if (!IdsObjects.ContainsKey(secondObjectId))
+                        continue;
+                    if (!IdsObjects.ContainsKey(firstObjectId))
+                        break;
                     if (firstObjectId == PlayerId
                         && IdsObjects[secondObjectId] is Tile tile
                         && !isPlayerOnGround)
@@ -87,8 +99,13 @@ namespace GhostsGame.Model
                     if (firstSolidObj is Player || secondSolidObj is Player)
                     {
                         IsPlayerCollided = true;
-                        if (firstSolidObj is Enemy || secondSolidObj is Enemy)
+                        if (firstSolidObj is Fire || secondSolidObj is Fire)
                         {
+                            if (firstSolidObj is Fire)
+                                Collect(firstObjInfo.Id);
+                            else
+                                Collect(secondObjInfo.Id);
+                            CurrentScore++;
                             return;
                         }
                     }
@@ -156,5 +173,8 @@ namespace GhostsGame.Model
         {
             ChangePlayerVelocity(Gravity);
         }
+
+        private void Collect(int objId) =>
+            IdsObjects.Remove(objId);
     }
 }

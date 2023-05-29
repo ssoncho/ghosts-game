@@ -9,24 +9,19 @@ using System.Threading.Tasks;
 
 namespace GhostsGame.Model
 {
-    public class Enemy : IObject, IGhost, ISolid
+    public class Fire : IObject, ISolid
     {
-        public Enemy(Vector2 initialPosition)
+        public Fire(Vector2 initialPosition)
         {
             Position = initialPosition;
         }
-        public Image ImageId => Image.Enemy;
+        public Image ImageId => Image.Fire;
 
         public Vector2 Position { get; private set; }
 
         public Vector2 Velocity { get; set; }
 
         public RectangleCollider Collider { get; set; }
-
-        public void Attack(IWeapon weapon)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Move(Vector2 newPosition)
         {
@@ -36,7 +31,7 @@ namespace GhostsGame.Model
 
         public void MoveCollider()
         {
-            Collider = new RectangleCollider((int)Position.X, (int)Position.Y, 64, 128);
+            Collider = new RectangleCollider((int)Position.X, (int)Position.Y, 64, 64);
         }
 
         public void Update()
